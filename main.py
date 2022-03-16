@@ -25,7 +25,7 @@ def conditions(file):
         return True
 
 
-def getcsvtext(csv_file):
+def get_text_csv(csv_file):
     """
     :param csv_file: filename of CSV doc_file
     :return: all of the text in that doc_file
@@ -35,7 +35,7 @@ def getcsvtext(csv_file):
     return text
 
 
-def runthroughpulls(file):
+def parse_files_by_type(file):
     """
     :param file: doc_file name
     :return: doc_file text if able to read it, "" otherwise
@@ -44,16 +44,16 @@ def runthroughpulls(file):
     text = ""
     try:
         if ".xls" in lower:
-            creator, modified, text = scrape_excel(file)
+            creator, modified, text = parse_excel(file)
         elif ".ppt_file" in lower:
-            creator, modified, text = scrape_ppt(file)
+            creator, modified, text = parse_ppt(file)
         elif ".pdf" in lower:
-            creator, modified, text = scrape_pdf(file)
+            creator, modified, text = parse_pdf(file)
         elif ".doc" in lower:
-            creator, modified, text = scrape_word(file)
+            creator, modified, text = parse_word(file)
         elif ".csv" in lower:
             creator, modified = ("", "")
-            text = getcsvtext(file)
+            text = get_text_csv(file)
         else:
             creator, modified, text = "", "", ""
     except:
@@ -61,7 +61,7 @@ def runthroughpulls(file):
     return creator, modified, text
 
 
-def gettime(file):
+def get_time(file):
     """
     :param file: name of doc_file
     :return: creation and modify time of that doc_file, if able to pull them
@@ -100,10 +100,10 @@ def get_file_list(folder, keywords, text_pull):
             file = os.path.join(dirpath, filename)
             if conditions(file):
                 if text_pull:
-                    creator, modified, text = runthroughpulls(file)
+                    creator, modified, text = parse_files_by_type(file)
                 else:
                     creator, modified, text = "", "", ""
-                creation_time, modify_time = gettime(file)
+                creation_time, modify_time = get_time(file)
                 extension = file.split(".")[-1]
                 row = dirpath, filename, text, extension, creator, modified, creation_time, modify_time
                 all_files.append(row)
@@ -126,7 +126,7 @@ def word_list():
     return keywords
 
 
-def scrape_word(doc_file):
+def parse_word(doc_file):
     """
     :param doc_file: csv_file name (word doc)
     :return: creator, modified by, text of csv_file
@@ -153,7 +153,7 @@ def get_file_info(content):
         return "", ""
 
 
-def scrape_ppt(ppt_file):
+def parse_ppt(ppt_file):
     """
     :param ppt_file: filename of a ppt_file doc_file
     :return: creator, modified by, filetext
@@ -167,7 +167,7 @@ def scrape_ppt(ppt_file):
         return "", "", ""
 
 
-def scrape_excel(excel_file):
+def parse_excel(excel_file):
     """
     :param excel_file: the filename of the excel pdf_file.
     :return: creator, modified by, text of doc_file
@@ -196,7 +196,7 @@ def get_text_excel(wb):
     return " ".join(flat_list)
 
 
-def scrape_pdf(pdf_file):
+def parse_pdf(pdf_file):
     """
     :param pdf_file: filename of PDF
     :return: text from PDF with the caveat that PDFs are twitchy and might not get everything
