@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 # os, time, and pandas are packages everyone is going to have
 # some of these are less so, but I was able to install all of them on my gfe
 # if you are not able to, you can comment them out and run this with text_pull=False
@@ -8,7 +8,7 @@ import pandas as pd
 import time
 from openpyxl import load_workbook
 from docx import Document
-from pptx import Presentation
+import pptx
 import PyPDF2
 
 
@@ -44,11 +44,11 @@ def runthroughpulls(file):
     text = ""
     try:
         if ".xls" in lower:
-            creator, modified, text = scrapeexcel(file)
-        elif ".ppt" in lower:
-            creator, modified, text = scrapeppt(file)
+            creator, modified, text = scrape_excel(file)
+        elif ".ppt_file" in lower:
+            creator, modified, text = scrape_ppt(file)
         elif ".pdf" in lower:
-            creator, modified, text = scrapepdf(file)
+            creator, modified, text = scrape_pdf(file)
         elif ".doc" in lower:
             creator, modified, text = scrape_word(file)
         elif ".csv" in lower:
@@ -132,41 +132,41 @@ def scrape_word(doc_file):
     """
     try:
         document = Document(doc_file)
-        creator, modified_by = getInfo(document)
-        text = getText(document)
+        creator, modified_by = get_file_info(document)
+        text = get_text_docx(document)
         return creator, modified_by, text
     except:
         return "", "", ""
 
 
-def getInfo(fileContent):
+def get_file_info(content):
     """
-    :param fileContent: fileContent of a document or ppt
+    :param content: content of a document or ppt_file
     :return: creator, modified by
     """
     try:
-        creator = fileContent.core_properties.author
-        modified_by = fileContent.core_properties.last_modified_by
+        creator = content.core_properties.author
+        modified_by = content.core_properties.last_modified_by
         return creator, modified_by
     except:
         return "", ""
 
 
-def scrapeppt(ppt_file):
+def scrape_ppt(ppt_file):
     """
-    :param ppt_file: filename of a ppt doc_file
+    :param ppt_file: filename of a ppt_file doc_file
     :return: creator, modified by, filetext
     """
     try:
-        ppt = Presentation(ppt_file)
-        creator, modified_by = getInfo(ppt)
-        text = getPPTText(ppt)
+        ppt = pptx.Presentation(ppt_file)
+        creator, modified_by = get_file_info(ppt)
+        text = get_text_ppt(ppt)
         return creator, modified_by, text
     except:
         return "", "", ""
 
 
-def scrapeexcel(excel_file):
+def scrape_excel(excel_file):
     """
     :param excel_file: the filename of the excel pdf_file.
     :return: creator, modified by, text of doc_file
@@ -175,13 +175,13 @@ def scrapeexcel(excel_file):
         wb = load_workbook(excel_file)
         creator = wb.properties.creator
         modified_by = wb.properties.lastModifiedBy
-        text = getexceltext(wb)
+        text = get_text_excel(wb)
         return creator, modified_by, text
     except:
         return "", "", ""
 
 
-def getexceltext(wb):
+def get_text_excel(wb):
     """
     :param wb: an excel workbook
     :return: string with text containing all the text from the workbook
@@ -195,7 +195,7 @@ def getexceltext(wb):
     return " ".join(flat_list)
 
 
-def scrapepdf(pdf_file):
+def scrape_pdf(pdf_file):
     """
     :param pdf_file: filename of PDF
     :return: text from PDF with the caveat that PDFs are twitchy and might not get everything
@@ -213,50 +213,58 @@ def scrapepdf(pdf_file):
     return creator, "", text
 
 
-def getPPTText(ppt):
-    # inputs: filename of PPT
-    # ouputs: text from PPT
+def get_text_ppt(ppt_file):
+    """
+    :param ppt_file: filename of PPT
+    :return: filename of PPT
+    """
     text = ""
-    for slide in ppt.slides:
+    for slide in ppt_file.slides:
         for shape in slide.shapes:
             if hasattr(shape, "text"):
-                text = text + (shape.text) + " "
-    return (text)
+                text = text + shape.text + " "
+    return text
 
 
-def getText(document):
-    # inputs: a document in docx
-    # output: the text from that document
-    allText = ""
+def get_text_docx(document):
+    """
+    :param document: a document in docx
+    :return: the text from that document
+    """
+    all_text = ""
     for para in document.paragraphs:
-        allText = allText + " " + para.text.strip()
-    return (allText.strip().replace("  ", " "))
+        all_text = all_text + " " + para.text.strip()
+    return all_text.strip().replace("  ", " ")
 
 
-def getFormulas(string, extension):
-    # inputs: string of text, extension of doc_file
-    # outputs: if this is an xlsx, this will return a list of the formulas in the filetext
+def get_formulas(string, extension):
+    """
+    :param string: string of text
+    :param extension: file extension
+    :return: if this is an xlsx, this will return a list of the formulas in the filetext
+    """
     if extension == "xlsx":
-        theList = string.split(" ")
-        formulas = [i for i in theList if i.startswith("=")]
+        the_list = string.split(" ")
+        formulas = [i for i in the_list if i.startswith("=")]
         return ",".join(formulas)
     else:
         return ""
 
 
-def main(folder, textpull=True, formulas=False):
+def main(folder, keywords=word_list(), textpull=True, formulas=False):
     """
     :param folder: The directory we want to search.
+    :param keywords: an optional list of keywords ex. ['dog', 'cat']
     :param textpull: param for what text you want to pull out of documents.
     :param formulas: param to decide if you want to pull formulas out of excel files.
     :return: a dataframe with text data and metadata from the excel files there
     """
-    keywords = word_list()
     df = get_file_list(folder, keywords, textpull)
     if formulas:
-        df['formulas'] = df.apply(lambda x: getFormulas(x['doc_file text'], x['extension']), axis=1)
+        df['formulas'] = df.apply(lambda x: get_formulas(x['doc_file text'], x['extension']), axis=1)
     return df
 
 
 if __name__ == "__main__":
-    main()
+    path = input("Paste the directory ou want to walk\n")
+    main(path)
