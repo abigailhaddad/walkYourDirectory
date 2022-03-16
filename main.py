@@ -108,12 +108,13 @@ def get_file_list(folder, keywords, text_pull):
                 row = dirpath, filename, text, extension, creator, modified, creation_time, modify_time
                 all_files.append(row)
     df = pd.DataFrame(all_files)
-    df.columns = ["location", "doc_file name", "doc_file text", "extension", "creator", "modified by", "creation time",
+    df.columns = ["directory", "doc_file name", "doc_file text", "extension", "creator", "modified by", "creation time",
                   "modified time"]
-    df['Found keyword'] = df['doc_file text'].astype(str).str.lower().astype(str).apply(runwords, args=keywords)
+    df['Found keyword'] = df['doc_file text'].astype(str).str.lower().astype(str).apply(runwords, keywords=keywords)
     df = df.drop_duplicates()
     if not text_pull:
         df = df.drop(columns=["creator", "modified by", "doc_file text", "Found keyword"])
+    print(df.head())
     return df
 
 
@@ -251,7 +252,7 @@ def get_formulas(string, extension):
         return ""
 
 
-def main(folder, keywords=word_list(), textpull=True, formulas=False):
+def main(folder, keywords=None, textpull=True, formulas=False):
     """
     :param folder: The directory we want to search.
     :param keywords: an optional list of keywords ex. ['dog', 'cat']
@@ -259,10 +260,12 @@ def main(folder, keywords=word_list(), textpull=True, formulas=False):
     :param formulas: param to decide if you want to pull formulas out of excel files.
     :return: a dataframe with text data and metadata from the excel files there
     """
+    if keywords is None:
+        keywords = word_list()
     df = get_file_list(folder, keywords, textpull)
     if formulas:
         df['formulas'] = df.apply(lambda x: get_formulas(x['doc_file text'], x['extension']), axis=1)
-    return df
+    return df.to_csv(path_or_buf='./file_details.csv', sep=',', index=False)
 
 
 if __name__ == "__main__":
