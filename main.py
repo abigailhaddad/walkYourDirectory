@@ -15,11 +15,12 @@ possible ways to expand this:
     --add in more data engineering to have this write out periodically/let you pause/otherwise deal with the fact that
     this just takes a really long time to run if you're extracting text
     --do other kinds of filtering
-    --there might be some limit to how long a string can be and I'm not sure how this is handling it; figure that out, parse long strings into multiple fields
     --try to extract info from file names (assuming certain standard naming conventions)
     --can we organize by subject -- topic modelling!!! and copying files over to new folder structure
     --be cleaner about importing libraries so if you aren't able to import certain libraries, this will still run and just not do certain things
 
+resolved:
+    no length of string that's going to wind up being a limitation
 """
 
 ### os, time, and pandas are packages everyone is going to have
@@ -220,7 +221,7 @@ def getFormulas(string, extension):
     else:
         return("")
         
-def main(folder, textPull=True, formulas=False):
+def main(folder=os.getcwd(), textPull=True, formulas=False, writeOut=True):
     # inputs: folder we want to search - for instance, the output of an os.getcwd(),
     #as well as whether you want to pull the text out of documents if possible and whether you want to search excel output for formulas
     # outputs: a dataframe with text data and metadata from the excel files there
@@ -228,4 +229,31 @@ def main(folder, textPull=True, formulas=False):
     df=getFileList(folder, keywords, textPull)
     if formulas:
         df['formulas']=df.apply(lambda x: getFormulas(x['file text'], x['extension']), axis=1)
-    return(df)
+    if writeOut:
+        df.to_excel("fileList.xlsx")
+    return(df) 
+    
+def testFolder(folder):
+    #inputs: this takes a string that is supposed to be a folder name
+    #outputs: True if you can access this folder, False if you cannot
+    response=False
+    currentDir=os.getcwd()
+    try:
+        os.chdir()
+        response=True
+    except:
+        print("The folder you have entered is not properly formatted or you do not have access to it.")
+        print(f'An example of a folder is your current directory: {currentDir}.')
+    os.chdir(currentDir)
+    return(response)
+    
+def getInputs():
+    # outputs: this prompts users for parameters, runs the main function, and then returns a df
+    # or else tells them that the parameters are wrong and prompts to exit or re-run
+    response=False
+    while response==False:
+        folder = input("Enter the folder you wish to search: ")
+    while response==True 
+    textPull=input("I want to extract text from the files you're searching? (True/False): ")
+    
+    
