@@ -1,0 +1,5 @@
+pandas~=1.2.3
+PyPDF2~=1.26.0
+openpyxl~=3.0.9
+python-docx
+python-pptx
