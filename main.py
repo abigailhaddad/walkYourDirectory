@@ -107,7 +107,7 @@ def getFileList(folder, keywords, textPull):
                     else:
                         creator, modified, text="", "", ""
                     creationTime, modifyTime= getTime(file)
-                    extension=file.split(".")[-1]
+                    extension=file.split(".")[-1].lower()
                     row=dirpath, filename, text, extension, creator, modified, creationTime, modifyTime
                     allFiles.append(row)
     df=pd.DataFrame(allFiles)
