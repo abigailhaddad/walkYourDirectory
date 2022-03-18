@@ -102,7 +102,7 @@ def getFileList(folder, keywords, textPull):
         for filename in filenames:  
                 file=os.path.join(dirpath,filename)
                 if conditions(file):   
-                    if textPull:
+                    if textPull==True:
                         creator, modified, text=runThroughPulls(file)
                     else:
                         creator, modified, text="", "", ""
@@ -227,9 +227,9 @@ def main(folder=os.getcwd(), textPull=True, formulas=False, writeOut=True):
     # outputs: a dataframe with text data and metadata from the excel files there
     keywords= wordList()
     df=getFileList(folder, keywords, textPull)
-    if formulas:
+    if formulas==True:
         df['formulas']=df.apply(lambda x: getFormulas(x['file text'], x['extension']), axis=1)
-    if writeOut:
+    if writeOut==True:
         df.to_excel("fileList.xlsx")
     return(df) 
     
@@ -239,7 +239,7 @@ def testFolder(folder):
     response=False
     currentDir=os.getcwd()
     try:
-        os.chdir()
+        os.chdir(folder)
         response=True
     except:
         print("The folder you have entered is not properly formatted or you do not have access to it.")
@@ -247,13 +247,32 @@ def testFolder(folder):
     os.chdir(currentDir)
     return(response)
     
+def testText(textPull):
+    if textPull is True or textPull is False:
+        return(False)
+    else:
+        return(True)
+        
+    
 def getInputs():
     # outputs: this prompts users for parameters, runs the main function, and then returns a df
     # or else tells them that the parameters are wrong and prompts to exit or re-run
+    formulas=False
     response=False
     while response==False:
-        folder = input("Enter the folder you wish to search: ")
-    while response==True 
-    textPull=input("I want to extract text from the files you're searching? (True/False): ")
-    
+        folder = input(r"Enter the folder you wish to search: ")
+        response=testFolder(folder)
+    response=False
+    while response==False:
+        textPull=input("I want to extract text from the files I'm searching (True/False): ")
+        response=testText(textPull)
+    if textPull=="False":
+        print("We're not asking about whether you want to extract formulas because you are not extracting text in general.")
+    else:
+        response=False
+        while response==False:
+            formulas=input("I want to extract formulas from the text I'm pulling (True/False): ")
+            response=testText(formulas)
+    df=main(folder, textPull, formulas, False)
+    return(df)
     
