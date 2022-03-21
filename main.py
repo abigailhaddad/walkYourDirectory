@@ -101,8 +101,8 @@ def getFileList(folder, keywords, textPull):
     for dirpath, dirnames, filenames in os.walk(folder):
         for filename in filenames:  
                 file=os.path.join(dirpath,filename)
-                if conditions(file):   
-                    if textPull==True:
+                if conditions(file)==True:   
+                    if textPull=="True":
                         creator, modified, text=runThroughPulls(file)
                     else:
                         creator, modified, text="", "", ""
