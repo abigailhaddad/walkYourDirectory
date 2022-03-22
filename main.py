@@ -227,7 +227,7 @@ def main(folder=os.getcwd(), textPull=True, formulas=False, writeOut=True):
     # outputs: a dataframe with text data and metadata from the excel files there
     keywords= wordList()
     df=getFileList(folder, keywords, textPull)
-    if formulas==True:
+    if formulas=="True":
         df['formulas']=df.apply(lambda x: getFormulas(x['file text'], x['extension']), axis=1)
     if writeOut==True:
         df.to_excel("fileList.xlsx")
