@@ -1,63 +1,54 @@
 ```markdown
 # walkYourDirectory
 
-## Project Overview
-
-**walkYourDirectory** is a versatile tool designed to extract text and metadata from all files within a specified directory and its subdirectories. This utility simplifies the process of navigating through complex file structures, making it easier to gather information for analysis, reporting, or migration tasks.
+walkYourDirectory is a powerful tool designed to extract text and metadata from all files within a specified directory, including all its subdirectories. This utility is perfect for data analysis, organization, and management tasks that require comprehensive file information retrieval.
 
 ## Features
 
-- **Recursive Directory Traversal**: Automatically navigates through folders and subfolders to access all files.
-- **Text Extraction**: Pulls text content from various file types.
-- **Metadata Retrieval**: Gathers essential metadata from files, such as size, creation date, and modification date.
-- **Customizable Filters**: Optional filters to target specific file types or exclude certain directories.
+- **Recursive Directory Traversal**: Automatically navigate through folders and subfolders to access all files.
+- **Text Extraction**: Retrieve text content from a wide variety of file formats.
+- **Metadata Extraction**: Gather metadata information such as file size, creation date, and modification date.
+- **Customizable**: Easily configure the types of files and metadata you want to extract.
 
-## Setup and Installation
+## Installation
 
-To get started with **walkYourDirectory**, follow these steps:
+To use walkYourDirectory, clone the repository and install the necessary dependencies:
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/yourusername/walkYourDirectory.git
-   cd walkYourDirectory
-   ```
-
-2. **Install Dependencies**:
-   Ensure you have Python installed, then install required packages:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-## Usage Examples
-
-Here's a simple example of how to use **walkYourDirectory**:
-
-```python
-from walkYourDirectory import walk_directory
-
-# Specify the directory you want to walk through
-directory_path = '/path/to/your/directory'
-
-# Call the function to extract text and metadata
-results = walk_directory(directory_path)
-
-# Output the results
-for file_info in results:
-    print(f"File: {file_info['name']}, Size: {file_info['size']} bytes")
+```bash
+git clone https://github.com/yourusername/walkYourDirectory.git
+cd walkYourDirectory
+pip install -r requirements.txt
 ```
 
-## Contribution Guidelines
+## Usage
 
-We welcome contributions to enhance **walkYourDirectory**. To contribute:
+Here's a simple example of how to use walkYourDirectory:
+
+```python
+from walkYourDirectory import DirectoryWalker
+
+# Initialize with the path to the directory you want to scan
+walker = DirectoryWalker('/path/to/your/folder')
+
+# Extract text and metadata
+files_info = walker.extract_info()
+
+# Print extracted information
+for file in files_info:
+    print(file)
+```
+
+## Contribution
+
+Contributions are welcome! Please follow these steps:
 
 1. Fork the repository.
-2. Create a new branch for your feature or bugfix.
-3. Commit your changes and push the branch to your fork.
-4. Open a pull request with a detailed description of your changes.
-
-Please ensure your code adheres to the existing style and passes all tests.
+2. Create a new branch (`git checkout -b feature/YourFeature`).
+3. Commit your changes (`git commit -am 'Add new feature'`).
+4. Push to the branch (`git push origin feature/YourFeature`).
+5. Open a pull request.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 ```
