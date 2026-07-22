@@ -1,47 +1,63 @@
+```markdown
 # walkYourDirectory
 
 ## Project Overview
 
-`walkYourDirectory` is a powerful tool designed to extract text and metadata from all the files in a directory and its subdirectories. This utility is extremely useful for data analysis, file management, and other tasks where you need to access and manipulate the contents of multiple files in a directory tree.
+**walkYourDirectory** is a versatile tool designed to extract text and metadata from all files within a specified directory and its subdirectories. This utility simplifies the process of navigating through complex file structures, making it easier to gather information for analysis, reporting, or migration tasks.
+
+## Features
+
+- **Recursive Directory Traversal**: Automatically navigates through folders and subfolders to access all files.
+- **Text Extraction**: Pulls text content from various file types.
+- **Metadata Retrieval**: Gathers essential metadata from files, such as size, creation date, and modification date.
+- **Customizable Filters**: Optional filters to target specific file types or exclude certain directories.
 
 ## Setup and Installation
 
-To get started with `walkYourDirectory`, you need to have Python installed on your machine. If you don't have Python, you can download it from the official website.
+To get started with **walkYourDirectory**, follow these steps:
 
-Once Python is installed, you can clone this repository to your local machine using the following command:
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/yourusername/walkYourDirectory.git
+   cd walkYourDirectory
+   ```
 
+2. **Install Dependencies**:
+   Ensure you have Python installed, then install required packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Usage Examples
+
+Here's a simple example of how to use **walkYourDirectory**:
+
+```python
+from walkYourDirectory import walk_directory
+
+# Specify the directory you want to walk through
+directory_path = '/path/to/your/directory'
+
+# Call the function to extract text and metadata
+results = walk_directory(directory_path)
+
+# Output the results
+for file_info in results:
+    print(f"File: {file_info['name']}, Size: {file_info['size']} bytes")
 ```
-git clone https://github.com/username/walkYourDirectory.git
-```
 
-After cloning the repository, navigate to the project directory:
+## Contribution Guidelines
 
-```
-cd walkYourDirectory
-```
+We welcome contributions to enhance **walkYourDirectory**. To contribute:
 
-Next, install the required dependencies using pip:
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix.
+3. Commit your changes and push the branch to your fork.
+4. Open a pull request with a detailed description of your changes.
 
-```
-pip install -r requirements.txt
-```
-
-## Usage
-
-Using `walkYourDirectory` is straightforward. To extract text and metadata from all files in a directory, simply run the main script and provide the path to the directory as an argument:
-
-```
-python main.py /path/to/directory
-```
-
-The script will traverse the directory and its subdirectories, extracting text and metadata from all files it encounters. The extracted data will be printed to the console.
-
-## Contributing
-
-Contributions to `walkYourDirectory` are welcome and appreciated. If you find a bug or have a feature request, please open an issue. If you'd like to contribute code, please fork the repository, make your changes, and submit a pull request.
-
-Please ensure your code adheres to the Python PEP 8 style guide. Each pull request should include tests for the code being added or modified.
+Please ensure your code adheres to the existing style and passes all tests.
 
 ## License
 
-`walkYourDirectory` is licensed under the MIT License. The full text of the license can be found in the `LICENSE` file. By contributing to `walkYourDirectory`, you agree that your contributions will be licensed under the same license.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+```
