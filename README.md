@@ -1,18 +1,18 @@
 ```markdown
 # walkYourDirectory
 
-walkYourDirectory is a powerful tool designed to extract text and metadata from all files within a specified directory, including all its subdirectories. This utility is perfect for data analysis, organization, and management tasks that require comprehensive file information retrieval.
+Welcome to **walkYourDirectory**, a powerful utility designed to extract text and metadata from all files within a specified directory and its subdirectories. Whether you're looking to index your documents, perform data analysis, or simply browse through file contents, walkYourDirectory provides a streamlined solution.
 
 ## Features
 
-- **Recursive Directory Traversal**: Automatically navigate through folders and subfolders to access all files.
-- **Text Extraction**: Retrieve text content from a wide variety of file formats.
-- **Metadata Extraction**: Gather metadata information such as file size, creation date, and modification date.
-- **Customizable**: Easily configure the types of files and metadata you want to extract.
+- **Recursive File Processing**: Automatically traverse through directories and subdirectories to access files.
+- **Text Extraction**: Pull text content from various file types.
+- **Metadata Retrieval**: Extract file metadata such as size, creation date, and modification date.
+- **Flexible Output**: Customize how the extracted data is presented or stored.
 
 ## Installation
 
-To use walkYourDirectory, clone the repository and install the necessary dependencies:
+To get started with walkYourDirectory, clone the repository and install the necessary dependencies.
 
 ```bash
 git clone https://github.com/yourusername/walkYourDirectory.git
@@ -22,33 +22,25 @@ pip install -r requirements.txt
 
 ## Usage
 
-Here's a simple example of how to use walkYourDirectory:
+To use walkYourDirectory, run the script with the path to the directory you wish to process:
 
-```python
-from walkYourDirectory import DirectoryWalker
-
-# Initialize with the path to the directory you want to scan
-walker = DirectoryWalker('/path/to/your/folder')
-
-# Extract text and metadata
-files_info = walker.extract_info()
-
-# Print extracted information
-for file in files_info:
-    print(file)
+```bash
+python walkYourDirectory.py /path/to/your/directory
 ```
 
-## Contribution
+This command will output the extracted text and metadata for all files within the specified directory and its subdirectories.
 
-Contributions are welcome! Please follow these steps:
+## Contribution Guidelines
+
+We welcome contributions to enhance walkYourDirectory! Please follow these steps:
 
 1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/YourFeature`).
-3. Commit your changes (`git commit -am 'Add new feature'`).
-4. Push to the branch (`git push origin feature/YourFeature`).
-5. Open a pull request.
+2. Create a new branch for your feature or bugfix.
+3. Commit your changes with clear and descriptive messages.
+4. Push your changes to your fork.
+5. Submit a pull request.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 ```
