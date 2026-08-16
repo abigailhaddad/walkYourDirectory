@@ -1,62 +1,63 @@
-```markdown
 # walkYourDirectory
 
-Welcome to **walkYourDirectory**, a powerful tool designed to extract text and metadata from files within a directory and its subdirectories. This project provides an efficient way to traverse through folders, enabling users to access and process file contents seamlessly.
+## Overview
+
+**walkYourDirectory** is a versatile tool designed to extract text and metadata from all files within a specified directory, including its subdirectories. This project is ideal for users who need to process large volumes of files and gather essential information efficiently.
 
 ## Features
 
-- **Recursive Directory Traversal**: Automatically navigate through all folders and subfolders.
-- **Text Extraction**: Pull text data from a variety of file types.
-- **Metadata Retrieval**: Extract file metadata for analysis or reporting.
-- **Simple Interface**: User-friendly interface for straightforward usage.
+- **Recursive Directory Traversal**: Automatically navigate through folders and subfolders.
+- **Text Extraction**: Pull text content from various file types.
+- **Metadata Retrieval**: Extract file metadata for easy organization and analysis.
+- **Customizable Filters**: Specify file types or patterns to include or exclude.
 
 ## Installation
 
-To use walkYourDirectory, clone the repository to your local machine:
+To install and set up `walkYourDirectory`, follow these steps:
 
-```bash
-git clone https://github.com/yourusername/walkYourDirectory.git
-cd walkYourDirectory
-```
-
-Ensure you have the necessary dependencies installed. You can typically install them via:
-
-```bash
-pip install -r requirements.txt
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/walkYourDirectory.git
+   ```
+2. Navigate into the project directory:
+   ```bash
+   cd walkYourDirectory
+   ```
+3. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ## Usage
 
-Here's a basic example of how to use walkYourDirectory:
+Here are some examples of how to use `walkYourDirectory`:
 
-```python
-from walkYourDirectory import DirectoryWalker
+- **Basic Usage**: Extract text and metadata from all files in a directory.
+  ```bash
+  python walkYourDirectory.py /path/to/your/directory
+  ```
 
-# Initialize the DirectoryWalker with your target directory
-walker = DirectoryWalker('/path/to/your/directory')
+- **Filter by File Type**: Process only specific file types.
+  ```bash
+  python walkYourDirectory.py /path/to/your/directory --file-type .txt
+  ```
 
-# Extract text and metadata
-file_data = walker.extract()
-
-# Process or display the extracted data
-for data in file_data:
-    print(f"File: {data['filename']}")
-    print(f"Text: {data['text']}")
-    print(f"Metadata: {data['metadata']}")
-```
+- **Exclude Patterns**: Ignore files matching specific patterns.
+  ```bash
+  python walkYourDirectory.py /path/to/your/directory --exclude *.log
+  ```
 
 ## Contribution Guidelines
 
-We welcome contributions to make walkYourDirectory even better! If you're interested in contributing, please follow these steps:
+We welcome contributions to enhance `walkYourDirectory`. To contribute:
 
 1. Fork the repository.
 2. Create a new branch for your feature or bugfix.
-3. Commit your changes and push them to your fork.
-4. Submit a pull request with a detailed description of your changes.
+3. Commit your changes with clear descriptions.
+4. Submit a pull request for review.
 
-Please ensure your code adheres to the project's coding standards and includes relevant tests.
+Please ensure your code adheres to the existing style and includes appropriate tests.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
-```
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
