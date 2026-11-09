@@ -40,18 +40,21 @@ def parse_files_by_type(file):
     :param file: doc_file name
     :return: doc_file text if able to read it, "" otherwise
     """
-    lower = file.lower()
+    # Dispatch on the file's own extension, not substrings of the full path:
+    # a folder named "q3.xlsx_backup" must not send every file in it to the
+    # Excel parser.
+    ext = os.path.splitext(file)[1].lower()
     text = ""
     try:
-        if ".xls" in lower:
+        if ext.startswith(".xls"):
             creator, modified, text = parse_excel(file)
-        elif ".ppt_file" in lower:
+        elif ext.startswith(".ppt"):
             creator, modified, text = parse_ppt(file)
-        elif ".pdf" in lower:
+        elif ext == ".pdf":
             creator, modified, text = parse_pdf(file)
-        elif ".doc" in lower:
+        elif ext.startswith(".doc"):
             creator, modified, text = parse_word(file)
-        elif ".csv" in lower:
+        elif ext == ".csv":
             creator, modified = ("", "")
             text = get_text_csv(file)
         else:
